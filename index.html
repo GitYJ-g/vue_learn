@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>曲线图</title>
+    <style>
+        .container {
+            width: 600px;
+            height: 400px;
+            border: 1px solid black;
+            position: relative;
+            margin: 50px auto;
+        }
+
+        .axis {
+            position: absolute;
+            left: 50px;
+            bottom: 50px;
+            width: 500px;
+            height: 1px;
+            background-color: black;
+        }
+
+        .axis span {
+            position: absolute;
+            bottom: -10px;
+            font-size: 12px;
+        }
+
+        .axis span:nth-child(2n) {
+            left: 0;
+            transform: translateX(-50%);
+        }
+
+        .axis span:nth-child(2n+1) {
+            right: 0;
+            transform: translateX(50%);
+        }
+
+        .line {
+            position: absolute;
+            left: 50px;
+            bottom: 50px;
+            width: 500px;
+            height: 300px;
+            border: 1px solid black;
+            overflow: hidden;
+        }
+
+        .line .point {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: black;
+            transform: translate(-50%, 50%);
+        }
+
+        .line .point:nth-child(1) {
+            left: 0;
+        }
+
+        .line .point:nth-child(2) {
+            left: 25%;
+        }
+
+        .line .point:nth-child(3) {
+            left: 50%;
+        }
+
+        .line .point:nth-child(4) {
+            left: 75%;
+        }
+
+        .line .point:nth-child(5) {
+            right: 0;
+        }
+
+        .line .line-path {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform: translateY(-100%);
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .line .line-path:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            background-image: linear-gradient(to right, black 0%, black 25%, transparent 25%, transparent 100%);
+            transform-origin: bottom left;
+            transform: scaleY(0);
+            animation: drawLine 2s forwards;
+        }
+
+        @keyframes drawLine {
+            to {
+                transform: scaleY(1);
+            }
+        }
+
+        .button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            padding: 10px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .button:active {
+            transform: translateY(2px);
+        }
+
+        .button:focus {
+            outline: none;
+        }
+
+        .button:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+
+        .button:disabled:hover {
+            background-color: gray;
+            color: white;
+        }
+
+        .button:disabled:active {
+            transform: none;
+        }
+
+        .button:focus {
+            outline: none;
+        }
+
+        .button-wrapper {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            transform: translateY(100%);
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .button-wrapper.show {
+            transform: translateY(0);
+        }
+
+        .button-wrapper.hide {
+            transform: translateY(100%);
+        }
+
+        .button-wrapper.show .button {
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .button-wrapper.hide .button {
+            animation: fadeOut 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        .button-wrapper.show .button:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .button-wrapper.show .button:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .button-wrapper.show .button:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .button-wrapper.show .button:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+
+        .button-wrapper.show .button:nth-child(5) {
+            animation-delay: 1s;
+        }
+
+        .button-wrapper.show .button:nth-child(6) {
+            animation-delay: 1.2s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="axis">
+            <span>0</span>
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+        </div>
+        <div class="line">
+            <div class="point"></div>
+            <div class="point"></div>
+            <div class="point"></div>
+            <div class="point"></div>
+            <div class="point"></div>
+            <div class="line-path"></div>
+        </div>
+        <button class="button" onclick="drawLine()">继续</button>
+        <div class="button-wrapper hide">
+            <button class="button">选项1</button>
+            <button class="button">选项2</button>
+            <button class="button">选项3</button>
+            <button class="button">选项4</button>
+            <button class="button">选项5</button>
+            <button class="button">选项6</button>
+        </div>
+    </div>
+    <script>
+        function drawLine() {
+            const linePath = document.querySelector(".line-path");
+            linePath.style.transform = "translateY(0)";
+            const buttonWrapper = document.querySelector(".button-wrapper");
+            buttonWrapper.classList.remove("hide");
+            buttonWrapper.classList.add("show");
+            const button = document.querySelector(".button");
+            button.disabled = true;
+        }
+    </script>
+</body>
+
+</html>
